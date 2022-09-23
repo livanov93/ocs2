@@ -37,7 +37,7 @@ find_package(std_srvs REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(ocs2_robotic_assets REQUIRED)
 find_package(ocs2_legged_robot REQUIRED)
-
+find_package(sensor_msgs REQUIRED)
 
 
 set(AMENT_PACKAGE_DEPENDENCIES

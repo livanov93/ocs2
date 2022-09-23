@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ocs2_core/Types.h>
 #include <ocs2_core/misc/LoadData.h>
 #include <ocs2_ros_interfaces/command/TargetTrajectoriesKeyboardPublisher.h>
+#include <ocs2_ros_interfaces/command/TargetTrajectoriesJoystickPublisher.h>
 
 using namespace ocs2;
 
@@ -120,13 +121,23 @@ int main(int argc, char* argv[]) {
   loadData::loadEigenMatrix(referenceFile, "defaultJointState", defaultJointState);
   loadData::loadCppDataType(referenceFile, "targetRotationVelocity", targetRotationVelocity);
   loadData::loadCppDataType(referenceFile, "targetDisplacementVelocity", targetDisplacementVelocity);
+  bool  use_joystick = false;
+  loadData::loadCppDataType(referenceFile, "useJoystick", use_joystick);
 
   // goalPose: [deltaX, deltaY, deltaZ, deltaYaw]
   const scalar_array_t relativeBaseLimit{10.0, 10.0, 0.2, 360.0};
-  TargetTrajectoriesKeyboardPublisher targetPoseCommand(nodeHandle, robotName, relativeBaseLimit, &commandLineToTargetTrajectories);
 
-  const std::string commandMsg = "Enter XYZ and Yaw (deg) displacements for the TORSO, separated by spaces";
-  targetPoseCommand.publishKeyboardCommand(commandMsg);
+  if(use_joystick) 
+  {
+    TargetTrajectoriesJoystickPublisher targetJoyPoseCommand(nodeHandle, robotName, relativeBaseLimit,&commandLineToTargetTrajectories);
+    targetJoyPoseCommand.publishJoystickCommand();
+  }
+  else
+  {
+    const std::string commandMsg = "Enter XYZ and Yaw (deg) displacements for the TORSO, separated by spaces";
+    TargetTrajectoriesKeyboardPublisher targetKeyPoseCommand(nodeHandle, robotName, relativeBaseLimit, &commandLineToTargetTrajectories);
+    targetKeyPoseCommand.publishKeyboardCommand(commandMsg);
+  }
 
   // Successful exit
   return 0;
