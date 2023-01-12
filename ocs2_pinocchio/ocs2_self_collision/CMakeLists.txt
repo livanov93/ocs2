@@ -23,12 +23,6 @@ find_package(Boost REQUIRED COMPONENTS
   log_setup
 )
 
-if ( EXISTS "/opt/openrobots/lib/libpinocchio.so")
-else()
-    message(FATAL_ERROR "Install Pinocchio first. Instructions: https://stack-of-tasks.github.io/pinocchio/download.html")
-endif()
-
-list(APPEND CMAKE_PREFIX_PATH "/opt/openrobots/")
 find_package(pinocchio REQUIRED)
 find_package(hpp-fcl  REQUIRED)
 

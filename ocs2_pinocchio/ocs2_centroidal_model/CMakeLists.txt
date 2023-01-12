@@ -26,12 +26,6 @@ find_package(Boost REQUIRED COMPONENTS
 
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
-if ( EXISTS "/opt/openrobots/lib/libpinocchio.so")
-else()
-    message(FATAL_ERROR "Install Pinocchio first. Instructions: https://stack-of-tasks.github.io/pinocchio/download.html")
-endif()
-
-list(APPEND CMAKE_PREFIX_PATH "/opt/openrobots/")
 find_package(pinocchio REQUIRED)
 
 ###########
@@ -70,9 +64,6 @@ ament_target_dependencies(${PROJECT_NAME}
   urdf
   urdfdom
 )
-
-set_target_properties(${PROJECT_NAME}
-  PROPERTIES INSTALL_RPATH "/opt/openrobots/lib")
 
 target_compile_options(${PROJECT_NAME} PUBLIC ${FLAGS})
 
