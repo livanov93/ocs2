@@ -69,9 +69,9 @@ Redistribution and use in source and binary forms, with or without
     request->reset = static_cast<uint8_t>(true);
     request->target_trajectories = ros_msg_conversions::createTargetTrajectoriesMsg(initTargetTrajectories);
 
-    while (!mpcResetServiceClient_->wait_for_service(std::chrono::seconds(5)) && ::rclcpp::ok()) {
-      RCLCPP_ERROR_STREAM(LOGGER, "Failed to call service to reset MPC, retrying...");
-    }
+    // while (!mpcResetServiceClient_->wait_for_service(std::chrono::seconds(5)) && ::rclcpp::ok()) {
+    //   RCLCPP_ERROR_STREAM(LOGGER, "Failed to call service to reset MPC, retrying...");
+    // }
 
     mpcResetServiceClient_->async_send_request(request);
     RCLCPP_INFO_STREAM(LOGGER, "MPC node has been reset.");
