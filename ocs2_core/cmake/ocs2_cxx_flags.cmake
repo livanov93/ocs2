@@ -4,6 +4,7 @@
 list(APPEND OCS2_CXX_FLAGS
   "-pthread"
   "-Wfatal-errors"
+  "-fPIC"
   )
 
 # Force Boost dynamic linking
