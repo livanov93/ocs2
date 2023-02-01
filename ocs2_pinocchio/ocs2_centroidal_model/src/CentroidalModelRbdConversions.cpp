@@ -221,8 +221,13 @@ vector_t CentroidalModelRbdConversions::computeRbdTorqueFromCentroidalModelPD(co
   const vector_t pdFeedback = pGains.cwiseProduct(qDesired - qMeasured) + dGains.cwiseProduct(vDesired - vMeasured);
 
   // feedforward plus PD on acceleration level
-  const vector_t aAugmented = aDesired + pdFeedback;
-  return pinocchio::rnea(model, data, qDesired, vDesired, aAugmented, fextDesired);
+  // const vector_t aAugmented = aDesired + pdFeedback;
+  // return pinocchio::rnea(model, data, qDesired, vDesired, aAugmented, fextDesired);
+
+  // TODO: Applying the pdFeedback in acceleration-space is not producing good
+  // results. Could just be a tuning issue though. For now, apply it in
+  // force-space.
+  return pinocchio::rnea(model, data, qDesired, vDesired, aDesired, fextDesired) + pdFeedback;
 }
 
 /******************************************************************************************************/
