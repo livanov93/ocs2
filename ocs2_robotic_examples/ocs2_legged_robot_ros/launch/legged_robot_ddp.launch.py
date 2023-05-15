@@ -13,7 +13,7 @@ from launch import LaunchDescription, LaunchService
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
-
+from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
     ocs2_robotic_assets_dir = get_package_share_directory('ocs2_robotic_assets')
@@ -36,6 +36,9 @@ def generate_launch_description():
 
     # only for rviz
     description_name = "legged_robot_description"
+    rviz_config_file = PathJoinSubstitution(
+        [FindPackageShare("ocs2_legged_robot_ros"), "rviz", "legged_robot.rviz"]
+    )
 
     return LaunchDescription([
 
@@ -63,7 +66,7 @@ def generate_launch_description():
                 {"reference_file": reference_file},
                 ],
             output='screen',
-            prefix=["gnome-terminal --"],
+            prefix=["xterm -e"],
         ),
         Node(
             name='legged_robot_target',
@@ -74,7 +77,7 @@ def generate_launch_description():
                 {"reference_file": reference_file},
                 ],
             output='screen',
-            prefix=["gnome-terminal --"],
+            prefix=["xterm -e"],
         ),
         Node(
             name='joy_node',
@@ -91,7 +94,14 @@ def generate_launch_description():
                 {"gait_command_file": gait_command_file},
                 ],
             output='screen',
-            prefix=["gnome-terminal --"],
+            prefix=["xterm -e"],
+        ),
+        Node(
+            package="rviz2",
+            executable="rviz2",
+            name="rviz2",
+            output="screen",
+            arguments=["-d", rviz_config_file],
         ),
     ])
 
