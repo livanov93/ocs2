@@ -91,6 +91,7 @@ class PinocchioInterfaceTpl final {
 
   /** Get the pinocchio model */
   const Model& getModel() const { return *robotModelPtr_; }
+  Model& getModel()  { return *robotModelPtr_; }
 
   /** Get the pinocchio data */
   Data& getData() { return *robotDataPtr_; }
@@ -106,7 +107,7 @@ class PinocchioInterfaceTpl final {
   friend std::ostream& operator<<(std::ostream& os, const PinocchioInterfaceTpl<scalar_t>& p);
 
  private:
-  std::shared_ptr<const Model> robotModelPtr_;
+  std::shared_ptr<Model> robotModelPtr_;
   std::unique_ptr<Data> robotDataPtr_;
   std::shared_ptr<const ::urdf::ModelInterface> urdfModelPtr_;
 };

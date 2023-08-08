@@ -40,7 +40,7 @@ namespace ocs2 {
 /******************************************************************************************************/
 template <typename SCALAR>
 PinocchioInterfaceTpl<SCALAR>::PinocchioInterfaceTpl(const Model& model, const std::shared_ptr<const ::urdf::ModelInterface> urdfModelPtr) {
-  robotModelPtr_ = std::make_shared<const Model>(model);
+  robotModelPtr_ = std::make_shared<Model>(model);
   robotDataPtr_ = std::unique_ptr<Data>(new Data(*robotModelPtr_));
   if (urdfModelPtr) {
     // This makes a copy of the urdfModelPtr, which guarantees constness of the urdf
